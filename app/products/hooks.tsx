@@ -13,11 +13,11 @@ export default function useProducts() {
 
   const loadProducts = async () => {
     try {
-      const res = await fetch("http://localhost:3001/products/", { cache: "no-store" });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/`, { cache: "no-store" });
 
       if (!res.ok) {
-        const errorText = await res.text(); 
-        throw new Error(errorText || "Failed to create product");
+        const err = await res.json();
+        throw err
       }
 
       const data = await res.json();
@@ -29,15 +29,15 @@ export default function useProducts() {
 
   const createProduct = async (product: { name: string; unit: string; density: number }) => {
     try {
-      const res = await fetch("http://localhost:3001/products/", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),
       });
 
       if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(errorText || "Failed to create product");
+        const err = await res.json();
+        throw err
       }
 
       toast.success("Product created");
@@ -49,15 +49,15 @@ export default function useProducts() {
 
   const updateProduct = async (id: string | number, product: { name: string; unit: string; density: number }) => {
     try {
-      const res = await fetch(`http://localhost:3001/products/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),
       });
 
       if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(errorText || "Failed to create product");
+        const err = await res.json();
+        throw err
       }
 
       toast.success("Product updated");
@@ -71,13 +71,13 @@ export default function useProducts() {
     if (!confirm("Are you sure you want to delete this product?")) return;
 
     try {
-      const res = await fetch(`http://localhost:3001/products/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
         method: "DELETE",
       });
 
       if (!res.ok) {
-        const errorText = await res.text(); 
-        throw new Error(errorText || "Failed to create product");
+        const err = await res.json();
+        throw err
       }
 
       toast.success("Product deleted");
