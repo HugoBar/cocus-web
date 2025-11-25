@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,9 +26,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+
+        <nav
+          style={{
+            display: "flex",
+            gap: "1rem",
+            padding: "12px 20px",
+            background: "#f5f5f5",
+            borderBottom: "1px solid #ddd",
+            marginBottom: "16px",
+            fontSize: "15px",
+          }}
+        >
+          <Link href="/recipes">Recipes</Link>
+          <Link href="/storage">Storage</Link>
+          <Link href="/products">Products</Link>
+        </nav>
+
         {children}
         <Toaster />
       </body>
